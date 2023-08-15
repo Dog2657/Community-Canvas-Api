@@ -4,10 +4,10 @@ Canvas_Height=2000
 
 # Minimum dimensions
 # Used for client applications
-Canvas_Min_Width=300
-Canvas_Min_Height=200
+Canvas_Min_Width= Canvas_Width / 10
+Canvas_Min_Height= Canvas_Height / 10
 
 #Canvas Splits
 #This is used to make section images
-Canvas_Colums=6
-Canvas_Rows=4
+Canvas_Colums=3
+Canvas_Rows=2

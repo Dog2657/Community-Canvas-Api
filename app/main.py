@@ -1,6 +1,6 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException, BackgroundTasks
+from core import imager, notifierManager, validation, pixelManagement
 from fastapi.staticfiles import StaticFiles
-from core import imager, notifierManager
 import config
 import math
 import os
@@ -44,8 +44,24 @@ async def GET_Canvas_Config():
 
 
 @app.post("/update")
-async def POST_Update_Pixel():
-    ...
+async def POST_Update_Pixel(
+    background_tasks: BackgroundTasks,
+    request: Request,
+    x: int,
+    y: int,
+    red: int,
+    green: int,
+    blue: int
+):
+    if(not validation.isOnCanvas(x, y)):
+        raise HTTPException(status_code=400, detail="Invalid X/Y position")
+   
+    if(not validation.isValidRGB(red, green, blue)):
+        raise HTTPException(status_code=400, detail="Invalid rgb value")
+    
+    background_tasks.add_task(pixelManagement.updateCanavasPixel, x, y, (red, green, blue))
+    await wsmanager.alertOfUpdate(x, y, (red, green, blue))
+
 
 
 @app.websocket("/wsnotifier")

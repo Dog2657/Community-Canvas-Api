@@ -22,3 +22,31 @@ def test_image_saving():
     assert os.path.exists(path)
 
     shutil.rmtree('/'.join(path.split('/')[0:-1]))
+
+
+
+def test_pixel_update_0_0():
+    os.makedirs(f'{os.getcwd()}/app/.temp/', exist_ok=True)
+    path = f'{os.getcwd()}/app/.temp/image.png'
+
+    img = imager.generateBlankImage(500, 500)
+    imager.save(path, img)
+
+    X = 0
+    Y = 0
+    rgb = (0, 0, 0)
+
+    imgArray = imager.updatePixel(path, X, Y, rgb)
+
+    assert len(img) == len(imgArray)
+    assert imgArray.shape == (500, 500, 3)
+
+    for x in range(len(imgArray)):
+        for y in range(len(imgArray[x])):
+            if(x == X and y == Y):
+                assert (imgArray[x, y] == rgb).all()
+
+            else:
+                assert (img[x, y] == imgArray[x, y]).all()
+
+    shutil.rmtree('/'.join(path.split('/')[0:-1]), onerror=None)
