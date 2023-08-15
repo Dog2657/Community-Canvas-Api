@@ -1,3 +1,4 @@
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 from core import imager
 import config
@@ -5,6 +6,9 @@ import math
 import os
 
 app = FastAPI()
+
+
+app.mount("/sections", StaticFiles(directory="sections"), name="sections")
 
 
 @app.on_event("startup")
