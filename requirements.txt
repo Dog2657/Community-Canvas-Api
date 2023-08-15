@@ -1,0 +1,4 @@
+fastapi==0.100.0
+websockets==10.4
+numpy==1.24.2
+uvicorn
