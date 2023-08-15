@@ -21,7 +21,7 @@ async def startup_event():
         path = f'{os.getcwd()}/sections/{index}.png'
 
         if not os.path.isfile(path):
-            img = imager.generateNewImage(section_width, section_heigth)
+            img = imager.generateBlankImage(section_width, section_heigth)
             imager.save(path, img)
 
 
