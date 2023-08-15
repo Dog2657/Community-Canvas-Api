@@ -1,12 +1,12 @@
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI
-from core import imager
+from core import imager, notifierManager
 import config
 import math
 import os
 
 app = FastAPI()
-
+wsmanager = notifierManager.Manager()
 
 app.mount("/sections", StaticFiles(directory="sections"), name="sections")
 
@@ -49,5 +49,11 @@ async def POST_Update_Pixel():
 
 
 @app.websocket("/wsnotifier")
-async def WEBSOCKET_Notifier():
-    ...
+async def WEBSOCKET_Notifier(websocket: WebSocket):
+    await wsmanager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    
+    except WebSocketDisconnect:
+        wsmanager.disconnect(websocket)
