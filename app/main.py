@@ -27,7 +27,16 @@ async def startup_event():
 
 @app.get("/config")
 async def GET_Canvas_Config():
-    ...
+    return {
+        "width": config.Canvas_Width,
+        "height": config.Canvas_Height,
+        "colums": config.Canvas_Colums,
+        "rows": config.Canvas_Rows,
+        "minDisplay": {
+            "width": config.Canvas_Min_Width,
+            "height": config.Canvas_Min_Height
+        }
+    }
 
 
 @app.post("/update")
