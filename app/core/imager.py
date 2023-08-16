@@ -14,6 +14,8 @@ def generateBlankImage(width: int, height: int) -> np.ndarray:
 def updatePixel(path: str, x: int, y: int, rgb: tuple):
     img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
 
+    img = img[:,:,:3]
+
     img[x, y] = [rgb[2], rgb[1], rgb[0]]
 
     return img
