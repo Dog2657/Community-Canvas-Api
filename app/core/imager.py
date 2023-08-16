@@ -16,6 +16,6 @@ def updatePixel(path: str, x: int, y: int, rgb: tuple):
 
     img = img[:,:,:3]
 
-    img[x, y] = [rgb[2], rgb[1], rgb[0]]
+    img[y, x] = [rgb[2], rgb[1], rgb[0]]
 
     return img
